@@ -26,8 +26,9 @@ jobs:
       run: |
         wget https://services.gradle.org/distributions/gradle-7.5-bin.zip
         unzip gradle-7.5-bin.zip
-        sudo mv gradle-7.5 /opt/gradle
-        sudo ln -s /opt/gradle/bin/gradle /usr/bin/gradle
+        sudo mkdir -p /opt/gradle
+        sudo mv gradle-7.5 /opt/gradle/gradle-7.5
+        echo "export PATH=\$PATH:/opt/gradle/gradle-7.5/bin" >> $GITHUB_ENV
 
     - name: Generate Gradle Wrapper
       run: gradle wrapper
