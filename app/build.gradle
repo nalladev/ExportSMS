@@ -1,13 +1,13 @@
 plugins {
-    id 'com.android.application' version '7.5.1'
+    id 'com.android.application'
 }
 
 android {
-    compileSdkVersion 33 // Set to your desired compile SDK version
+    compileSdkVersion 34
     defaultConfig {
-        applicationId "com.example.myapp" // Set your application ID
-        minSdkVersion 21 // Set to your minimum SDK version
-        targetSdkVersion 33 // Set to your target SDK version
+        applicationId "com.example.myapp"
+        minSdkVersion 21
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
     }
@@ -16,6 +16,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 }
 

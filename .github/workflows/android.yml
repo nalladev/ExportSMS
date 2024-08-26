@@ -22,16 +22,16 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
 
-    - name: Install Gradle 7.5
+    - name: Install Gradle 9
       run: |
-        wget https://services.gradle.org/distributions/gradle-7.5-bin.zip
-        unzip gradle-7.5-bin.zip
+        wget https://services.gradle.org/distributions/gradle-9.0-bin.zip
+        unzip gradle-9.0-bin.zip
         sudo mkdir -p /opt/gradle
-        sudo mv gradle-7.5 /opt/gradle/gradle-7.5
-        echo "export PATH=\$PATH:/opt/gradle/gradle-7.5/bin" >> $GITHUB_ENV
+        sudo mv gradle-9.0 /opt/gradle/gradle-9.0
+        echo "export PATH=\$PATH:/opt/gradle/gradle-9.0/bin" >> $GITHUB_ENV
 
     - name: Generate Gradle Wrapper
-      run: gradle wrapper --stacktrace
+      run: gradle wrapper
 
     - name: Build APK
       run: ./gradlew assembleRelease
@@ -40,4 +40,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: apk
-        path: app/build/outputs/apk/release/app-release.apk
+        path: app/build/outputs
