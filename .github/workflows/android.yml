@@ -3,7 +3,7 @@ name: Build APK
 on:
   push:
     branches:
-      - master  # Trigger the workflow on push to the master branch
+      - master # Trigger the workflow on push to the master branch
 
 jobs:
   build:
@@ -16,7 +16,7 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
-          java-version: "17"  # Use Java 17 for the Android Gradle plugin
+          java-version: "17" # Use Java 17 for the Android Gradle plugin
           distribution: "temurin"
 
       - name: Install SDK Command Line Tools
@@ -46,10 +46,14 @@ jobs:
           sudo ln -sf /opt/gradle/bin/gradle /usr/local/bin/gradle
 
       - name: Build APK
-        run: gradle assembleRelease  # Use gradle command directly
+        run: gradle assembleRelease # Use gradle command directly
+
+      - name: List APK directory
+        run: ls -R app/build/outputs/apk/release/
 
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
           name: apk
           path: app/build/outputs/apk/release/app-release.apk
+          if-no-files-found: warn
