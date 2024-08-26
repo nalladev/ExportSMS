@@ -28,23 +28,27 @@ jobs:
           unzip commandlinetools.zip -d $HOME/android-sdk/cmdline-tools/
           mv $HOME/android-sdk/cmdline-tools/cmdline-tools/* $HOME/android-sdk/cmdline-tools/
           rmdir $HOME/android-sdk/cmdline-tools/cmdline-tools
-          echo "sdk.dir=$HOME/android-sdk" > local.properties
+          echo "sdk.dir=$HOME/android-sdk" > $HOME/android-sdk/local.properties
 
       - name: Verify SDK Directory Structure
         run: |
           ls -l $HOME/android-sdk
           ls -l $HOME/android-sdk/cmdline-tools
 
+      - name: Move SDK Tools to Latest
+        run: |
+          mkdir -p $HOME/android-sdk/cmdline-tools/latest
+          mv $HOME/android-sdk/cmdline-tools/* $HOME/android-sdk/cmdline-tools/latest/
+
       - name: Accept SDK Licenses
         run: |
           echo "sdk.dir=$HOME/android-sdk" > $HOME/android-sdk/local.properties
-          $HOME/android-sdk/cmdline-tools/bin/sdkmanager --list
+          $HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=$HOME/android-sdk --licenses
 
       - name: Install SDK Packages
         run: |
-          echo "sdk.dir=$HOME/android-sdk" > $HOME/android-sdk/local.properties
-          $HOME/android-sdk/cmdline-tools/bin/sdkmanager --update
-          $HOME/android-sdk/cmdline-tools/bin/sdkmanager "platforms;android-33" "build-tools;33.0.1"
+          $HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager --update
+          $HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager "platforms;android-33" "build-tools;33.0.1"
 
       - name: Install Specific Gradle Version
         run: |
