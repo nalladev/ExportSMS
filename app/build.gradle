@@ -3,10 +3,11 @@
 apply plugin: 'com.android.application'
 
 android {
+    namespace 'com.adrianstoll.exportsms'
     compileSdkVersion 33  // Use the latest SDK version or the one required for your project
 
     defaultConfig {
-        applicationId "com.example.myapp"
+        applicationId "com.adrianstoll.exportsms"
         minSdkVersion 21
         targetSdkVersion 33
         versionCode 1
