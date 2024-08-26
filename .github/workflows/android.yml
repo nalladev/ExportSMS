@@ -22,7 +22,7 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
 
-    - name: Install Gradle
+    - name: Install Gradle 7.5
       run: |
         wget https://services.gradle.org/distributions/gradle-7.5-bin.zip
         unzip gradle-7.5-bin.zip
