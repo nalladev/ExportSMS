@@ -3,7 +3,7 @@ name: Build APK
 on:
   push:
     branches:
-      - master # Trigger the workflow on push to the master branch
+      - master  # Trigger the workflow on push to the master branch
 
 jobs:
   build:
@@ -16,7 +16,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: "11" # Use the Java version compatible with your project
+          java-version: "11"  # Use the Java version compatible with your project
           distribution: "temurin"
 
       - name: Install SDK
@@ -30,6 +30,7 @@ jobs:
           wget https://services.gradle.org/distributions/gradle-8.0-bin.zip
           unzip gradle-8.0-bin.zip
           sudo mv gradle-8.0 /opt/gradle
+          sudo rm -f /usr/bin/gradle
           sudo ln -s /opt/gradle/bin/gradle /usr/bin/gradle
 
       - name: Build APK
