@@ -30,7 +30,7 @@ jobs:
           wget https://services.gradle.org/distributions/gradle-8.0-bin.zip
           unzip gradle-8.0-bin.zip
           sudo mv gradle-8.0 /opt/gradle
-          sudo ln -s /opt/gradle/bin/gradle /usr/bin/gradle  # Create a symlink for the gradle command
+          sudo ln -s /opt/gradle/bin/gradle /usr/bin/gradle
 
       - name: Build APK
         run: gradle assembleRelease
