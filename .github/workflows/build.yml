@@ -29,11 +29,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-gradle-
 
-    - name: Set up Gradle
-      uses: gradle/gradle-build-action@v3
-      with:
-        distribution: 'https://services.gradle.org/distributions/gradle-7.5-bin.zip'  # Specify the Gradle distribution
-
     - name: Build with Gradle
       run: ./gradlew assembleRelease  # or ./gradlew assembleDebug depending on your needs
 
