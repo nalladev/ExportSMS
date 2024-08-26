@@ -3,10 +3,10 @@ name: Build APK
 on:
   push:
     branches:
-      - master  # Trigger this workflow on push to the master branch
+      - master
   pull_request:
     branches:
-      - master  # Trigger this workflow on pull request to the master branch
+      - master
 
 jobs:
   build:
@@ -16,17 +16,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          java-version: '11'  # Use the JDK version required for your project
-          distribution: 'temurin'  # Use the updated distribution name
+      - name: Install Gradle
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gradle
+
+      - name: Generate Gradle Wrapper
+        run: |
+          gradle wrapper
 
       - name: Build APK
-        run: ./gradlew assembleRelease  # Use the Gradle task to build your APK
+        run: |
+          ./gradlew assembleRelease
 
       - name: Archive APK
         uses: actions/upload-artifact@v3
         with:
           name: apk
-          path: app/build/outputs/apk/release/app-release.apk  # Path to the generated APK
+          path: app/build/outputs/apk/release/app-release.apk
