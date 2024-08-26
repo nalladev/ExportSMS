@@ -13,6 +13,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Set up Gradle
+      uses: gradle/gradle-build-action@v2
+      with:
+        gradle-version: '7.5' # Set your desired Gradle version
+        cache-disabled: false
     - name: Checkout code
       uses: actions/checkout@v3
 
@@ -21,12 +26,6 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin' # Use 'temurin' for the Eclipse Adoptium JDK distribution
-
-    - name: Set up Gradle
-      uses: gradle/gradle-build-action@v2
-      with:
-        gradle-version: '7.5' # Set your desired Gradle version
-        cache-disabled: false
 
     - name: Build APK
       run: ./gradlew assembleRelease
