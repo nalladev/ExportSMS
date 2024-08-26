@@ -18,11 +18,14 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
 
-    - name: Set up Android SDK
+    - name: Build and Test APK
+      uses: docker://maven:3.8.5-openjdk-11
+      with:
+        entrypoint: "/bin/bash"
       run: |
         # Ensure necessary packages are installed
-        apt-get update
-        apt-get install -y wget unzip
+        apt update
+        apt install -y wget unzip
 
         # Create SDK directory
         mkdir -p $HOME/android-sdk
@@ -35,11 +38,7 @@ jobs:
         # Accept licenses and install SDK components
         yes | $HOME/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=$HOME/android-sdk --licenses
         $HOME/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=$HOME/android-sdk "platforms;android-30" "build-tools;30.0.3"
-      env:
-        JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/11.0.24-8/x64
-        PATH: $HOME/android-sdk/cmdline-tools/bin:$PATH
 
-    - name: Build APK
-      run: |
+        # Build APK
         cd android
         ./gradlew assembleRelease
