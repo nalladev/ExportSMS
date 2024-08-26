@@ -25,12 +25,9 @@ jobs:
           sudo apt-get install -y android-sdk
           echo "sdk.dir=/usr/lib/android-sdk" > local.properties
 
-      - name: Install Gradle
+      - name: Install Dependencies
         run: |
-          wget https://services.gradle.org/distributions/gradle-8.0-bin.zip
-          unzip gradle-8.0-bin.zip
-          sudo mv gradle-8.0 /opt/gradle
-          export PATH=$PATH:/opt/gradle/bin
+          sudo apt-get install -y gradle
 
       - name: Build APK
         run: |
