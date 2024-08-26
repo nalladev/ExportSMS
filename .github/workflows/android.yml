@@ -25,6 +25,10 @@ jobs:
           sudo apt-get install -y android-sdk
           echo "sdk.dir=/usr/lib/android-sdk" > local.properties
 
+      - name: Accept SDK Licenses
+        run: |
+          yes | sdkmanager --licenses
+
       - name: Install Specific Gradle Version
         run: |
           wget https://services.gradle.org/distributions/gradle-8.0-bin.zip
