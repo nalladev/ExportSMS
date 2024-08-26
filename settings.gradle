@@ -1,4 +1,4 @@
-// File: settings.gradle 
+// File: settings.gradle
 
 rootProject.name = "MyApplication"
 include ':app'
