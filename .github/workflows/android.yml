@@ -3,7 +3,7 @@ name: Build APK
 on:
   push:
     branches:
-      - main  # Trigger the workflow on push to the main branch
+      - master  # Trigger the workflow on push to the main branch
 
 jobs:
   build:
@@ -17,6 +17,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '11'  # Use the Java version compatible with your project
+          distribution: 'temurin'
 
       - name: Install SDK
         run: |
