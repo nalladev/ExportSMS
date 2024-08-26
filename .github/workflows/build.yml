@@ -3,10 +3,10 @@ name: Build Android APK
 on:
   push:
     branches:
-      - main  # or the branch you want to trigger the build
+      - master  # or the branch you want to trigger the build
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
   build:
