@@ -19,18 +19,19 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v3
       with:
-        java-version: '11'  # Use the version required by your project
+        java-version: '11'  # Adjust as needed for your project
 
-    - name: Cache Gradle
-      uses: actions/cache@v3
+    - name: Build APK with Docker
+      uses: docker://openjdk:11-jdk
       with:
-        path: ~/.gradle/caches
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
-
-    - name: Build with Gradle
-      run: ./gradlew assembleRelease  # or ./gradlew assembleDebug depending on your needs
+        entrypoint: /bin/bash
+        args: -c |
+          apt-get update && apt-get install -y wget unzip
+          wget https://services.gradle.org/distributions/gradle-7.5-bin.zip
+          unzip gradle-7.5-bin.zip
+          export GRADLE_HOME=$PWD/gradle-7.5
+          export PATH=$PATH:$GRADLE_HOME/bin
+          ./gradlew assembleRelease  # or ./gradlew assembleDebug depending on your needs
 
     - name: Archive APK
       uses: actions/upload-artifact@v3
