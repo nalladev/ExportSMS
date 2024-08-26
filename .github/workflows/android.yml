@@ -31,7 +31,7 @@ jobs:
         echo "export PATH=\$PATH:/opt/gradle/gradle-7.5/bin" >> $GITHUB_ENV
 
     - name: Generate Gradle Wrapper
-      run: gradle wrapper
+      run: gradle wrapper --stacktrace
 
     - name: Build APK
       run: ./gradlew assembleRelease
