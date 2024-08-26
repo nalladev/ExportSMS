@@ -3,41 +3,37 @@ name: Build APK
 on:
   push:
     branches:
-      - master
-  pull_request:
-    branches:
-      - master
+      - main  # Trigger the workflow on push to the main branch
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up JDK 11
-      uses: actions/setup-java@v3
-      with:
-        java-version: '11'
-        distribution: 'temurin'
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'  # Use the Java version compatible with your project
 
-    - name: Install Gradle 9
-      run: |
-        wget https://services.gradle.org/distributions/gradle-9.0-bin.zip
-        unzip gradle-9.0-bin.zip
-        sudo mkdir -p /opt/gradle
-        sudo mv gradle-9.0 /opt/gradle/gradle-9.0
-        echo "export PATH=\$PATH:/opt/gradle/gradle-9.0/bin" >> $GITHUB_ENV
+      - name: Install SDK
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y android-sdk
+          echo "sdk.dir=/usr/lib/android-sdk" > local.properties
 
-    - name: Generate Gradle Wrapper
-      run: gradle wrapper
+      - name: Install Dependencies
+        run: |
+          sudo apt-get install -y gradle
 
-    - name: Build APK
-      run: ./gradlew assembleRelease
+      - name: Build APK
+        run: |
+          gradle assembleRelease  # Or the specific gradle task you need
 
-    - name: Upload APK
-      uses: actions/upload-artifact@v3
-      with:
-        name: apk
-        path: app/build/outputs
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: apk
+          path: app/build/outputs/apk/release/app-release.apk  # Adjust path as needed

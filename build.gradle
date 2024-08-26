@@ -1,15 +1,13 @@
+// File: build.gradle (Project-level)
+
 buildscript {
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:8.0.0" // Android Gradle plugin version
+        classpath 'com.android.tools.build:gradle:8.1.0'  // Use the appropriate Gradle plugin version
     }
-}
-
-plugins {
-    id 'com.android.application' version '8.0.0' apply false
 }
 
 allprojects {

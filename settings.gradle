@@ -1,14 +1,4 @@
-pluginManagement {
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-    }
-}
+// File: settings.gradle
 
-dependencyResolutionManagement {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
+rootProject.name = "MyApplication"
+include ':app'
