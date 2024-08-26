@@ -3,7 +3,7 @@ name: Build APK
 on:
   push:
     branches:
-      - master  # Adjust to your branch name
+      - master
 
 jobs:
   build:
@@ -13,15 +13,33 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Set up JDK 11
+    - name: Set up JDK
       uses: actions/setup-java@v3
       with:
-        java-version: '11'
-        distribution: 'temurin'  # Use 'temurin' instead of 'adopt-openjdk'
+        java-version: '11' # Specify the JDK version you need
+
+    - name: Install Android SDK
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y wget unzip
+        wget https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip
+        unzip commandlinetools-linux-8512546_latest.zip -d $HOME/android-sdk
+        echo "export ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
+        echo "export PATH=$ANDROID_HOME/cmdline-tools/bin:$PATH" >> $GITHUB_ENV
+        sdkmanager --update
+
+    - name: Install Android SDK Build Tools
+      run: sdkmanager "build-tools;30.0.3" "platforms;android-30"
 
     - name: Build APK
       run: |
         cd app/src/main
         javac -d out $(find . -name '*.java')
         jar cvf app-release.jar -C out .
-        # Replace with actual APK build commands if needed
+        # Adjust the following command if needed based on your setup
+        # Use `aapt` and `zipalign` to create APK if necessary
+        # Example:
+        # aapt package -f -m -J src -S res -M AndroidManifest.xml -F app-release.apk
+        # zipalign -v 4 app-release.apk app-release-aligned.apk
+        # apksigner sign --ks my-release-key.jks --out app-release-signed.apk app-release-aligned.apk
+        # cp app-release-signed.apk ../app-release.apk
