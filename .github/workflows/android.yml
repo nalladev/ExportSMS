@@ -32,10 +32,12 @@ jobs:
 
       - name: Accept SDK Licenses
         run: |
+          echo "sdk.dir=$HOME/android-sdk" > $HOME/android-sdk/local.properties
           $HOME/android-sdk/cmdline-tools/bin/sdkmanager --licenses
 
       - name: Install SDK Packages
         run: |
+          echo "sdk.dir=$HOME/android-sdk" > $HOME/android-sdk/local.properties
           $HOME/android-sdk/cmdline-tools/bin/sdkmanager --update
           $HOME/android-sdk/cmdline-tools/bin/sdkmanager "platforms;android-33" "build-tools;33.0.1"
 
