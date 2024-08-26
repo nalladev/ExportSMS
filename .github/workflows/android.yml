@@ -19,6 +19,11 @@ jobs:
           java-version: "17"  # Use Java 17 for the Android Gradle plugin
           distribution: "temurin"
 
+      - name: Install SDK Packages
+        run: |
+          $HOME/android-sdk/cmdline-tools/bin/sdkmanager --update
+          $HOME/android-sdk/cmdline-tools/bin/sdkmanager "platforms;android-33" "build-tools;33.0.1"
+
       - name: Install SDK Command Line Tools
         run: |
           sudo apt-get update
@@ -28,11 +33,6 @@ jobs:
           unzip commandlinetools-linux-8512546_latest.zip -d $HOME/android-sdk/cmdline-tools
           echo "sdk.dir=$HOME/android-sdk" > local.properties
           $HOME/android-sdk/cmdline-tools/bin/sdkmanager --licenses
-
-      - name: Install SDK Packages
-        run: |
-          $HOME/android-sdk/cmdline-tools/bin/sdkmanager --update
-          $HOME/android-sdk/cmdline-tools/bin/sdkmanager "platforms;android-33" "build-tools;33.0.1"
 
       - name: Install Specific Gradle Version
         run: |
