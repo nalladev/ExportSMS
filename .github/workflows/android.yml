@@ -49,7 +49,7 @@ jobs:
         run: gradle assembleRelease # Use gradle command directly
 
       - name: List APK directory
-        run: ls -R app/build/outputs/apk/release/
+        run: ls -R app/build/outputs/apk/
 
       - name: Upload APK
         uses: actions/upload-artifact@v3
