@@ -19,26 +19,30 @@ jobs:
           java-version: "17"  # Use Java 17 for the Android Gradle plugin
           distribution: "temurin"
 
-      - name: Install SDK
+      - name: Install SDK Command Line Tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y android-sdk
-          echo "sdk.dir=/usr/lib/android-sdk" > local.properties
+          sudo apt-get install -y wget unzip
+          wget https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip
+          mkdir -p $HOME/android-sdk/cmdline-tools
+          unzip commandlinetools-linux-8512546_latest.zip -d $HOME/android-sdk/cmdline-tools
+          echo "sdk.dir=$HOME/android-sdk" > local.properties
+          $HOME/android-sdk/cmdline-tools/bin/sdkmanager --licenses
 
-      - name: Accept SDK Licenses
+      - name: Install SDK Packages
         run: |
-          yes | sdkmanager --licenses
+          $HOME/android-sdk/cmdline-tools/bin/sdkmanager --update
+          $HOME/android-sdk/cmdline-tools/bin/sdkmanager "platforms;android-33" "build-tools;33.0.1"
 
       - name: Install Specific Gradle Version
         run: |
           wget https://services.gradle.org/distributions/gradle-8.0-bin.zip
           unzip gradle-8.0-bin.zip
           sudo mv gradle-8.0 /opt/gradle
-          sudo rm -f /usr/bin/gradle
-          sudo ln -s /opt/gradle/bin/gradle /usr/bin/gradle
+          sudo ln -sf /opt/gradle/bin/gradle /usr/local/bin/gradle
 
       - name: Build APK
-        run: gradle assembleRelease
+        run: gradle assembleRelease  # Use gradle command directly
 
       - name: Upload APK
         uses: actions/upload-artifact@v3
