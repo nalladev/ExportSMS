@@ -1,10 +1,8 @@
-// File: app/build.gradle (Module-level)
-
 apply plugin: 'com.android.application'
 
 android {
     namespace 'com.adrianstoll.exportsms'
-    compileSdkVersion 33  // Use the latest SDK version or the one required for your project
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.adrianstoll.exportsms"
@@ -38,11 +36,16 @@ android {
 }
 
 dependencies {
+    // AndroidX libraries
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    // Unit testing
     testImplementation 'junit:junit:4.13.2'
+
+    // Android testing
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
