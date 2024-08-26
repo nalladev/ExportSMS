@@ -3,7 +3,7 @@ name: Build APK
 on:
   push:
     branches:
-      - master # Trigger the workflow on push to the main branch
+      - master # Trigger the workflow on push to the master branch
 
 jobs:
   build:
@@ -25,16 +25,18 @@ jobs:
           sudo apt-get install -y android-sdk
           echo "sdk.dir=/usr/lib/android-sdk" > local.properties
 
-      - name: Install Dependencies
+      - name: Install Specific Gradle Version
         run: |
-          sudo apt-get install -y gradle
+          wget https://services.gradle.org/distributions/gradle-8.0-bin.zip
+          unzip gradle-8.0-bin.zip
+          sudo mv gradle-8.0 /opt/gradle
+          sudo ln -s /opt/gradle/bin/gradle /usr/bin/gradle  # Create a symlink for the gradle command
 
       - name: Build APK
-        run: |
-          gradle assembleRelease
+        run: gradle assembleRelease
 
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
           name: apk
-          path: app/build/outputs/apk/release/app-release.apk # Adjust path as needed
+          path: app/build/outputs/apk/release/app-release.apk
