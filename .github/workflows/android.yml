@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '11'  # Use the JDK version required for your project
-          distribution: 'adopt-openjdk'
+          distribution: 'adoptium'  # Use the updated distribution name
 
       - name: Build APK
         run: ./gradlew assembleRelease  # Use the Gradle task to build your APK
