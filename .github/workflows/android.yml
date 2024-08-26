@@ -46,14 +46,10 @@ jobs:
           sudo ln -sf /opt/gradle/bin/gradle /usr/local/bin/gradle
 
       - name: Build APK
-        run: gradle assembleRelease # Use gradle command directly
-
-      - name: List APK directory
-        run: ls -R app/build/outputs/apk/
+        run: gradle assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
-          name: apk
-          path: app/build/outputs/apk/release/app-release.apk
-          if-no-files-found: warn
+          name: debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
