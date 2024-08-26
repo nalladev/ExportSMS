@@ -22,12 +22,10 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
 
-      - name: Install Gradle
-        run: |
-          wget https://services.gradle.org/distributions/gradle-7.5-bin.zip
-          unzip gradle-7.5-bin.zip
-          sudo mv gradle-7.5 /opt/gradle
-          sudo ln -s /opt/gradle/bin/gradle /usr/bin/gradle
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: '7.5'
 
       - name: Build APK
         run: |
