@@ -21,8 +21,8 @@ jobs:
     - name: Set up Android SDK
       run: |
         # Ensure necessary packages are installed
-        sudo apt-get update
-        sudo apt-get install -y wget unzip
+        apt-get update
+        apt-get install -y wget unzip
 
         # Create SDK directory
         mkdir -p $HOME/android-sdk
