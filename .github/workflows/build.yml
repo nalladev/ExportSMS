@@ -1,4 +1,4 @@
-name: Build APK
+name: Build Android APK
 
 on:
   push:
@@ -13,35 +13,37 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Set up JDK
+    - name: Set up Java JDK
       uses: actions/setup-java@v3
       with:
         java-version: '11'
         distribution: 'temurin' # Or another distribution like 'zulu'
 
-    - name: Install Android SDK Command-line Tools
+    - name: Install required packages
       run: |
         sudo apt-get update
-        sudo apt-get install -y wget unzip
-        mkdir -p $HOME/android-sdk/cmdline-tools
-        wget https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip -O commandlinetools.zip
-        unzip commandlinetools.zip -d $HOME/android-sdk/cmdline-tools
-        echo "export ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
-        echo "export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH" >> $GITHUB_ENV
-        sdkmanager --update
+        sudo apt-get install -y unzip wget
 
-    - name: Install Android SDK Build Tools and Platform Tools
+    - name: Download Android SDK Command-Line Tools
       run: |
-        sdkmanager "build-tools;30.0.3" "platforms;android-30"
+        wget https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip -O commandlinetools.zip
+
+    - name: Extract Android SDK Command-Line Tools
+      run: |
+        mkdir -p $HOME/android-sdk/cmdline-tools
+        unzip commandlinetools.zip -d $HOME/android-sdk/cmdline-tools
+        rm commandlinetools.zip
+
+    - name: Set up Android SDK environment
+      run: |
+        echo "export ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
+        echo "export PATH=$PATH:$HOME/android-sdk/cmdline-tools/bin" >> $GITHUB_ENV
+
+    - name: Accept licenses and install SDK packages
+      run: |
+        sdkmanager --sdk_root=$HOME/android-sdk --licenses
+        sdkmanager --sdk_root=$HOME/android-sdk "platforms;android-30" "build-tools;30.0.3"
 
     - name: Build APK
       run: |
-        cd app/src/main
-        javac -d out $(find . -name '*.java')
-        jar cvf app-release.jar -C out .
-        # Adjust the following commands as needed
-        # Example:
-        # aapt package -f -m -J src -S res -M AndroidManifest.xml -F app-release.apk
-        # zipalign -v 4 app-release.apk app-release-aligned.apk
-        # apksigner sign --ks my-release-key.jks --out app-release-signed.apk app-release-aligned.apk
-        # cp app-release-signed.apk ../app-release.apk
+        ./gradlew assembleRelease
