@@ -22,14 +22,16 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
 
-      - name: Set up Gradle
-        uses: gradle/gradle-build-action@v2
-        with:
-          gradle-version: '7.5'
+      - name: Install Gradle
+        run: |
+          wget https://services.gradle.org/distributions/gradle-7.5-bin.zip
+          unzip gradle-7.5-bin.zip
+          sudo mv gradle-7.5 /opt/gradle
+          sudo ln -sfn /opt/gradle/bin/gradle /usr/bin/gradle
 
       - name: Build APK
         run: |
-          ./gradlew assembleRelease
+          gradle assembleRelease
 
       - name: Archive APK
         uses: actions/upload-artifact@v3
