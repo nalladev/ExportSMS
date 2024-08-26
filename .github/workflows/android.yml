@@ -28,4 +28,5 @@ jobs:
       - name: Archive APK
         uses: actions/upload-artifact@v3
         with:
- 
+          name: apk
+          path: app/build/outputs/apk/release/app-release.apk  # Path to the generated APK
